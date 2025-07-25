@@ -1,0 +1,35 @@
+Description: Add some hardening options to monit.service
+Author: Fabio Augusto De Muzio Tobich <ftobich@debian.org>
+Forwarded: no
+Last-Update: 2023-08-20
+
+Index: monit-5.35.2/system/startup/monit.service.in
+===================================================================
+--- monit-5.35.2.orig/system/startup/monit.service.in
++++ monit-5.35.2/system/startup/monit.service.in
+@@ -29,5 +29,25 @@ ExecReload=@prefix@/bin/monit reload
+ Restart=on-abnormal
+ StandardOutput=null
+ 
++# hardening options
++#  details: https://www.freedesktop.org/software/systemd/man/systemd.exec.html
++CapabilityBoundingSet=CAP_DAC_READ_SEARCH CAP_NET_RAW CAP_SYS_PTRACE
++LockPersonality=true
++MemoryDenyWriteExecute=true
++NoNewPrivileges=true
++PrivateTmp=true
++ProtectClock=true
++ProtectControlGroups=true
++ProtectHome=yes
++ProtectHostname=true
++ProtectKernelLogs=true
++ProtectKernelModules=true
++ProtectKernelTunables=true
++ProtectSystem=strict
++ReadWritePaths=/run/ /var/lib/monit/ /var/log/
++RestrictRealtime=true
++RestrictSUIDSGID=true
++SystemCallArchitectures=native
++
+ [Install]
+ WantedBy=multi-user.target

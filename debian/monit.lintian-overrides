@@ -1,0 +1,8 @@
+# can contain sensitive information (eq. passwords):
+monit: non-standard-file-perm 0600 != 0644 [etc/monit/monitrc]
+# permissions on eventqueue dir:
+monit: non-standard-dir-perm 0700 != 0755 [var/lib/monit/events/]
+# init script depends on $all
+# see thread https://lists.debian.org/debian-devel/2014/02/msg00160.html
+monit: init.d-script-depends-on-all-virtual-facility should-start [etc/init.d/monit]
+monit: init.d-script-depends-on-all-virtual-facility should-stop [etc/init.d/monit]

@@ -1,0 +1,47 @@
+###############################
+# To update the FreeBSD port: #
+###############################
+
+1.) Prerequisites:
+
+  md5
+  sha256 (sysutils/freebsd-sha256)
+
+
+2.) Modify the port:
+
+  git clone https://git.FreeBSD.org/ports.git
+  cd ports/sysutils/monit
+  git checkout -b monit-5-34-2
+  vi Makefile
+      - change DISTVERSION in to the current monit version
+      - if PORTVERSION is set, drop it
+  make makesum
+  make stage            (test)
+  make stage-qa         (test)
+  make package          (test)
+  make install          (test)
+  make deinstall        (test)
+  make check-plist      (test)
+  portlint              (test)
+  git commit -a
+  git format-patch main (will create 0001-monit-5.34.2.patch, which can be submitted via https://bugs.freebsd.org/bugzilla/)
+
+
+
+3.) Send the port upgrade (for example using https://bugs.freebsd.org/bugzilla/)
+
+    component:  Individual Port(s)
+    summary:    sysutils/monit: Update to <new_version>
+    severity:   Affects Some People
+    Version:    Latest
+    HW:         Any
+    OS:         Any
+
+  Put the link to the changelog to the URL field like this:
+        https://mmonit.com/monit/changes/#5.34.2
+
+  Attach the following file:
+        0001-monit-5.34.2.patch (set maintainer-approval+ if you're maintainer)
+
+  Add "build is ok" to the description along with the port upgrade text.

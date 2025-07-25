@@ -1,0 +1,30 @@
+Description: Fix build warnings
+Author: Christian Göttsche <cgzones@googlemail.com>
+Last-Update: 2020-10-25
+
+Index: monit-5.35.2/src/net/Link.c
+===================================================================
+--- monit-5.35.2.orig/src/net/Link.c
++++ monit-5.35.2/src/net/Link.c
+@@ -46,9 +46,6 @@
+ #ifdef HAVE_KSTAT_H
+ #include <kstat.h>
+ #endif
+-#ifdef HAVE_SYS_SYSCTL_H
+-#include <sys/sysctl.h>
+-#endif
+ #ifdef HAVE_NET_ROUTE_H
+ #include <net/route.h>
+ #endif
+Index: monit-5.35.2/src/protocols/websocket.c
+===================================================================
+--- monit-5.35.2.orig/src/protocols/websocket.c
++++ monit-5.35.2/src/protocols/websocket.c
+@@ -53,6 +53,7 @@ static void read_response(Socket_T socke
+         int n;
+         do {
+                 char buf[STRLEN];
++                buf[0] = '\0';
+                 // Read frame header
+                 if ((n = Socket_read(socket, buf, 2)) != 2)
+                         THROW(IOException, "WEBSOCKET: response 0x%x: header read error -- %s", opcode, STRERROR);

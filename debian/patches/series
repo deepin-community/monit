@@ -1,0 +1,4 @@
+010_monitrc.patch
+020_enable-hurd.patch
+030_fix-warnings.patch
+040_hardening-monit.service.patch
