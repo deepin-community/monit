@@ -1,0 +1,42 @@
+AUTOMAKE_OPTIONS = foreign no-dependencies
+
+LDADD = ../libmonit.la
+AM_CPPFLAGS = -I../src/ -I../src/util -I../src/net -I../src/io -I../src/exceptions -I../src/thread 
+
+noinst_PROGRAMS = StrTest \
+                  FmtTest \
+                  SystemTest \
+                  RandomTest \
+                  ArrayTest \
+                  ListTest \
+                  DirTest \
+                  StringBufferTest \
+                  InputStreamTest \
+                  OutputStreamTest \
+                  FileTest \
+                  ExceptionTest \
+                  NetTest \
+                  TimeTest \
+                  CommandTest
+
+StrTest_SOURCES = StrTest.c
+FmtTest_SOURCES = FmtTest.c
+CommandTest_SOURCES = CommandTest.c
+SystemTest_SOURCES = SystemTest.c
+RandomTest_SOURCES = RandomTest.c
+ListTest_SOURCES = ListTest.c
+ArrayTest_SOURCES = ArrayTest.c
+DirTest_SOURCES = DirTest.c
+StringBufferTest_SOURCES = StringBufferTest.c
+InputStreamTest_SOURCES = InputStreamTest.c
+OutputStreamTest_SOURCES = OutputStreamTest.c
+FileTest_SOURCES = FileTest.c
+ExceptionTest_SOURCES = ExceptionTest.c
+NetTest_SOURCES = NetTest.c
+TimeTest_SOURCES = TimeTest.c
+
+DISTCLEANFILES = *~ 
+
+verify:
+	@/bin/sh ./test.sh
+

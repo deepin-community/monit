@@ -1,0 +1,86 @@
+Description: setup default minimal monitrc
+ To allow monit daemon start after install.
+Author: Sergey B Kirpichev <skirpichev@gmail.com>
+Bug-Debian: http://bugs.debian.org/583132
+Forwarded: not-needed
+Reviewed-By: Fabio Augusto De Muzio Tobich <ftobich@gmail.com>
+Last-Update: 2021-08-27
+Index: monit-5.35.2/monitrc
+===================================================================
+--- monit-5.35.2.orig/monitrc
++++ monit-5.35.2/monitrc
+@@ -16,7 +16,7 @@
+ ##
+ ## Start Monit in the background (run as a daemon):
+ #
+-set daemon  30              # check services at 30 seconds intervals
++set daemon  120             # check services at 120 seconds intervals
+ #   with start delay 240    # optional: delay the first check by 4-minutes (by
+ #                           # default Monit check immediately after Monit start)
+ #
+@@ -24,7 +24,7 @@ set daemon  30              # check serv
+ ## Set syslog logging. If you want to log to a standalone log file instead,
+ ## specify the full path to the log file
+ #
+-set log syslog
++set log /var/log/monit.log
+ 
+ #
+ #
+@@ -38,6 +38,7 @@ set log syslog
+ ## default the file is placed in $HOME/.monit.id.
+ #
+ # set idfile /var/.monit.id
++set idfile /var/lib/monit/id
+ #
+ ## Set the location of the Monit state file which saves monitoring states
+ ## on each cycle. By default the file is placed in $HOME/.monit.state. If
+@@ -46,6 +47,7 @@ set log syslog
+ ## state will be lost on reboot which may be convenient in some situations.
+ #
+ # set statefile /var/.monit.state
++set statefile /var/lib/monit/state
+ #
+ #
+ 
+@@ -90,9 +92,9 @@ set log syslog
+ ## by using the SLOTS option (if omitted, the queue is limited by space
+ ## available in the back end filesystem).
+ #
+-# set eventqueue
+-#     basedir /var/monit  # set the base directory where events will be stored
+-#     slots 100           # optionally limit the queue size
++ set eventqueue
++     basedir /var/lib/monit/events  # set the base directory where events will be stored
++     slots 100                      # optionally limit the queue size
+ #
+ #
+ ## Send status and events to M/Monit (for more information about M/Monit
+@@ -157,13 +159,13 @@ set log syslog
+ ## commands to a running Monit daemon. See the Monit Wiki if you want to
+ ## enable SSL for the HTTP interface.
+ #
+-set httpd port 2812 and
+-    use address localhost  # only accept connection from localhost (drop if you use M/Monit)
+-    allow localhost        # allow localhost to connect to the server and
+-    allow admin:monit      # require user 'admin' with password 'monit'
+-    #with ssl {            # enable SSL/TLS and set path to server certificate
+-    #    pemfile: /etc/ssl/certs/monit.pem
+-    #}
++#set httpd port 2812 and
++#    use address localhost  # only accept connection from localhost (drop if you use M/Monit)
++#    allow localhost        # allow localhost to connect to the server and
++#    allow admin:monit      # require user 'admin' with password 'monit'
++#    #with ssl {            # enable SSL/TLS and set path to server certificate
++#    #    pemfile: /etc/ssl/certs/monit.pem
++#    #}
+ #
+ ## Monit can perform act differently regarding services previous state when
+ ## going back in duty. By default, Monit will 'start' all services. Monit can
+@@ -312,4 +314,6 @@ set httpd port 2812 and
+ ## directories.
+ #
+ #  include /etc/monit.d/*
++include /etc/monit/conf.d/*
++include /etc/monit/conf-enabled/*
+ #

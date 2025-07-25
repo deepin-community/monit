@@ -1,0 +1,4 @@
+monitrc etc/monit/
+debian/conf-available/* etc/monit/conf-available/
+debian/templates/* etc/monit/templates/
+system/bash/monit usr/share/bash-completion/completions/
